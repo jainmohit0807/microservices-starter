@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "Spring Microservices Starter",
+    "description": "API collection for the microservices template (via API Gateway on port 8080)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "gatewayUrl", "value": "http://localhost:8080" },
+    { "key": "userServiceUrl", "value": "http://localhost:8081/api" },
+    { "key": "accessToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "User Service",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{userServiceUrl}}/v1/users" },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{userServiceUrl}}/v1/auth/login" },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{userServiceUrl}}/v1/users/1" }
+          }
+        },
+        {
+          "name": "List Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{userServiceUrl}}/v1/users?page=0&size=20" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway Routes",
+      "item": [
+        {
+          "name": "Register via Gateway",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{gatewayUrl}}/api/v1/users" },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"jane@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login via Gateway",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{gatewayUrl}}/api/v1/auth/login" },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"jane@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Infrastructure",
+      "item": [
+        {
+          "name": "Eureka Dashboard",
+          "request": { "method": "GET", "url": { "raw": "http://localhost:8761" } }
+        },
+        {
+          "name": "Gateway Health",
+          "request": { "method": "GET", "url": { "raw": "{{gatewayUrl}}/actuator/health" } }
+        },
+        {
+          "name": "User Service Health",
+          "request": { "method": "GET", "url": { "raw": "{{userServiceUrl}}/actuator/health" } }
+        }
+      ]
+    }
+  ]
+}

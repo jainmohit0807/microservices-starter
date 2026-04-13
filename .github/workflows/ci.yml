@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build all modules
+        run: ./mvnw clean verify -DskipTests
+
+      - name: Run unit tests (user-service)
+        run: ./mvnw test -pl user-service
+        env:
+          SPRING_PROFILES_ACTIVE: test
+
+      - name: Run unit tests (notification-service)
+        run: ./mvnw test -pl notification-service
+        env:
+          SPRING_PROFILES_ACTIVE: test
+
+      - name: Build Docker images
+        run: |
+          docker build -f eureka-server/Dockerfile -t eureka-server:latest .
+          docker build -f config-server/Dockerfile -t config-server:latest .
+          docker build -f api-gateway/Dockerfile -t api-gateway:latest .
+          docker build -f user-service/Dockerfile -t user-service:latest .
+          docker build -f notification-service/Dockerfile -t notification-service:latest .
