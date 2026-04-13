@@ -1,6 +1,5 @@
 # Spring Microservices Starter
 
-[![CI](https://github.com/jainmohit0807/spring-microservices-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/jainmohit0807/spring-microservices-starter/actions/workflows/ci.yml)
 [![Java](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3-6DB33F?logo=springboot)](https://spring.io/projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/Spring_Cloud-2023.0-6DB33F?logo=spring)](https://spring.io/projects/spring-cloud)
